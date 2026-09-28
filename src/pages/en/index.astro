@@ -1,0 +1,201 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import Section from "../../components/Section.astro";
+import { identity, experience, education, certifications, keywords } from "../../data/resume";
+
+const locale = "en" as const;
+const works = (await getCollection("works", (w) => w.data.lang === locale && w.data.featured)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const notes = (await getCollection("notes", (n) => n.data.lang === locale && !n.data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const anchors = [
+  { href: "#about", label: "About me" },
+  { href: "#experience", label: "Experience" },
+  { href: "#education", label: "Education" },
+  { href: "#projects", label: "Projects" },
+  { href: "#certifications", label: "Certifications" },
+  { href: "#skills", label: "Skills" },
+  { href: "#notes", label: "Notes" },
+  { href: `/${locale}/works/`, label: "All projects" },
+  { href: `/${locale}/contact/`, label: "Contact" },
+];
+---
+
+<Base
+  locale={locale}
+  title={`${identity.name.en} | ${identity.currentTitle.en} | SiC Smart Manufacturing`}
+  description={identity.summary.en}
+  navAnchors={anchors}
+>
+  <div class="grid w-full grid-cols-1 gap-5 md:grid-cols-3">
+    <Sidebar locale={locale} />
+
+    <div class="md:col-span-2 md:mr-5">
+      <div class="card mt-5 p-5 md:mt-[5.5rem]">
+        <Section id="about" title="About me">
+          <p class="text-[var(--color-muted-foreground)]">{identity.summary.en}</p>
+          <p class="mt-2 text-[0.95rem] font-medium text-[var(--color-secondary-foreground)]">
+            &ldquo;{identity.lead.en}&rdquo;
+          </p>
+        </Section>
+
+        <Section id="experience" title="Experience">
+          {
+            experience.map((e) => (
+              <div class="card-inset flex w-full flex-col gap-x-7 gap-y-1">
+                <h3 class="text-lg font-medium text-[var(--color-secondary-foreground)]">
+                  {e.company.en}
+                </h3>
+                <p class="text-[var(--color-muted-foreground)]">{e.title.en}</p>
+                <p class="text-sm text-[var(--color-accent-300)]">
+                  {e.period}
+                  <span class="text-[var(--color-muted-foreground)]">
+                    {" "}· {e.location.en}
+                  </span>
+                </p>
+                <ul class="ml-4 list-disc text-sm text-[var(--color-muted-foreground)]">
+                  {e.bullets.map((b) => (
+                    <li>{b.en}</li>
+                  ))}
+                </ul>
+                <p class="text-[13px] text-[var(--color-muted-foreground)]">{e.dept.en}</p>
+                {e.todo.length > 0 && (
+                  <p class="text-xs text-amber-600 dark:text-amber-400">✏️ {e.todo.join(" / ")}</p>
+                )}
+              </div>
+            ))
+          }
+        </Section>
+
+        <Section id="education" title="Education and theses">
+          {
+            education.map((e) => (
+              <div class="card-inset flex w-full flex-col gap-x-7 gap-y-1">
+                <h3 class="text-lg font-medium text-[var(--color-secondary-foreground)]">
+                  {e.school.en}
+                </h3>
+                <p class="text-[var(--color-muted-foreground)]">{e.degree.en}</p>
+                <p class="text-sm text-[var(--color-accent-300)]">{e.period}</p>
+                {e.thesis && (
+                  <div class="mt-1 rounded-xl bg-[var(--color-background-tertiary)] p-3">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent-300)]">
+                      MSc Thesis
+                    </p>
+                    <p class="mt-1 text-sm font-medium text-[var(--color-secondary-foreground)]">
+                      {e.thesis.title.en}
+                    </p>
+                    <p class="mt-1 text-xs text-[var(--color-muted-foreground)]">
+                      {e.thesis.advisor.en} · {e.thesis.oral.en}
+                    </p>
+                    <a
+                      href={e.thesis.url}
+                      target="_blank"
+                      rel="noopener"
+                      class="mt-1 inline-block break-all text-xs text-[var(--color-accent-300)] underline underline-offset-2"
+                    >
+                      🔗 {e.thesis.url}
+                    </a>
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </Section>
+
+        <Section id="projects" title="Projects">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {
+              works.map((w) => (
+                <a
+                  href={`/${locale}/works/${w.id.replace(/-(zh|en)$/, "")}/`}
+                  class="group flex flex-col gap-y-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-background-secondary)] p-5 transition-all hover:border-[var(--color-accent-300)] hover:shadow-sm"
+                >
+                  <div class="flex items-start justify-between gap-2">
+                    <span class="text-3xl" aria-hidden="true">
+                      {w.data.icon}
+                    </span>
+                    {w.data.period && (
+                      <span class="text-xs text-[var(--color-muted-foreground)]">
+                        {w.data.period}
+                      </span>
+                    )}
+                  </div>
+                  <h3 class="text-lg font-medium leading-snug text-[var(--color-secondary-foreground)] group-hover:text-[var(--color-accent-300)]">
+                    {w.data.title}
+                  </h3>
+                  <p class="text-sm leading-relaxed text-[var(--color-muted-foreground)]">
+                    {w.data.summary}
+                  </p>
+                  <div class="mt-auto flex flex-wrap gap-1.5 pt-1">
+                    {w.data.tech.slice(0, 3).map((x) => (
+                      <span class="rounded-md bg-[var(--color-background-tertiary)] px-2 py-0.5 text-[11px]">
+                        {x}
+                      </span>
+                    ))}
+                  </div>
+                </a>
+              ))
+            }
+          </div>
+        </Section>
+
+        <Section id="certifications" title="Certifications and training">
+          {
+            certifications.map((c) => (
+              <div class="card-inset flex w-full flex-row items-start gap-3">
+                <span class="text-xl leading-none" aria-hidden="true">
+                  {c.icon}
+                </span>
+                <div class="min-w-0">
+                  <h3 class="text-[15px] font-medium text-[var(--color-secondary-foreground)]">
+                    {c.name.en}
+                  </h3>
+                  <p class="text-sm text-[var(--color-muted-foreground)]">{c.issuer.en}</p>
+                  {c.date && (
+                    <p class="text-xs text-[var(--color-accent-300)]">{c.date}</p>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </Section>
+
+        <Section id="skills" title="Skills and keywords">
+          <div class="flex flex-wrap gap-2">
+            {keywords.en.map((k) => <span class="chip">{k}</span>)}
+          </div>
+        </Section>
+
+        {
+          notes.length > 0 && (
+            <Section id="notes" title="Technical notes">
+              {notes.slice(0, 3).map((n) => (
+                <a
+                  href={`/${locale}/notes/${n.id.replace(/-(zh|en)$/, "")}/`}
+                  class="card-inset flex w-full flex-col gap-y-1 transition-all hover:shadow-sm"
+                >
+                  <div class="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 class="text-[15px] font-medium text-[var(--color-secondary-foreground)]">
+                      {n.data.title}
+                    </h3>
+                    <time class="text-xs text-[var(--color-accent-300)]">
+                      {n.data.pubDate.toISOString().slice(0, 10)}
+                    </time>
+                  </div>
+                  <p class="text-sm text-[var(--color-muted-foreground)]">
+                    {n.data.description}
+                  </p>
+                </a>
+              ))}
+            </Section>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</Base>

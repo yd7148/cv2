@@ -1,0 +1,360 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ══════════════════════════════════════════════════════════════
+   Design tokens — copied verbatim from astro-resume-01
+   (/_astro/index.BPrvPFZ2.css @layer theme + :root/.dark)
+   ══════════════════════════════════════════════════════════════ */
+@theme {
+  --font-sans: "Satoshi", "Noto Sans TC", system-ui, -apple-system,
+    "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-satoshi: "Satoshi", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --color-red-500: oklch(63.7% 0.237 25.331);
+  --color-green-400: oklch(79.2% 0.209 151.711);
+  --color-gray-600: oklch(44.6% 0.03 256.802);
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent-200: #a8b1ff;
+  --color-accent-300: #808cff;
+
+  --leading-relaxed: 1.625;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+}
+
+:root {
+  --background: #e5e7eb;
+  --background-secondary: #f3f3f3;
+  --background-tertiary: #fff;
+  --primary: #fff;
+  --primary-foreground: #f3f3f3;
+  --secondary: #000;
+  --secondary-foreground: #000;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 72.22% 50.59%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
+  --h-header: 50px;
+}
+
+.dark {
+  --background: #545454;
+  --background-secondary: #202020;
+  --background-tertiary: #1c1c1c;
+  --primary: #1c1c1c;
+  --primary-foreground: #202020;
+  --secondary: #fff;
+  --secondary-foreground: #fff;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+}
+
+/* Satoshi, self-hosted (same files as the reference) */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.ttf");
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-VariableItalic.ttf");
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Base — mirrors the reference (astro-resume-01)
+   ══════════════════════════════════════════════════════════════ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-secondary-foreground);
+    font-family: var(--font-satoshi);
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: inherit;
+  }
+}
+
+@layer components {
+  .shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+  }
+  .card {
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    background-color: var(--color-background-tertiary);
+  }
+  .card-inset {
+    border-radius: 1rem;
+    background-color: var(--color-background-secondary);
+    padding: 1.25rem;
+    color: var(--color-secondary-foreground);
+  }
+  .card-nav {
+    border-radius: 1rem;
+    background-color: var(--color-background-tertiary);
+    padding: 1.25rem;
+    color: var(--color-secondary-foreground);
+  }
+  .icon-tile {
+    display: grid;
+    place-items: center;
+    border-radius: 0.5rem;
+    background-color: var(--color-accent-200);
+    padding: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.1);
+    color: #0012b3;
+  }
+  .dark .icon-tile {
+    color: #fff;
+  }
+  .btn-accent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border-radius: 1.5rem;
+    background-color: var(--color-accent-200);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: #0012b3;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .btn-accent:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+  .dark .btn-accent {
+    color: #0012b3;
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background-color: var(--color-background-tertiary);
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-secondary-foreground);
+    transition: background-color 0.15s, transform 0.15s;
+  }
+  .btn-ghost:hover {
+    background-color: var(--color-background-tertiary);
+    transform: translateY(-1px);
+  }
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-secondary-foreground);
+  }
+  .section-heading svg {
+    color: var(--color-accent-300);
+    flex: none;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 0.5rem;
+    background-color: var(--color-background-secondary);
+    padding: 0.3rem 0.65rem;
+    font-size: 0.8125rem;
+    color: var(--color-secondary-foreground);
+  }
+  /* Reference uses text-accent-200 (#a8b1ff) for these small labels. */
+  .label-accent {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-accent-200);
+  }
+  .dark .label-accent {
+    color: var(--color-accent-300);
+  }
+  .anchor {
+    scroll-margin-top: calc(var(--h-header) + 2.5em);
+  }
+}
+
+/* ── v1 token aliases so the shared detail pages reuse one palette ── */
+@layer base {
+  :root {
+    --color-fg: var(--color-foreground);
+    --color-muted: hsl(var(--muted-foreground));
+    --color-line: hsl(var(--border));
+    --color-surface: var(--color-background-secondary);
+    --color-brand: var(--color-accent-300);
+    --color-brand-fg: #0012b3;
+    --color-bg: var(--color-background-tertiary);
+    --color-accent: var(--color-accent-300);
+  }
+  .container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    padding-inline: 1.25rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border-radius: 0.75rem;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-tertiary);
+    color: var(--color-secondary-foreground);
+    transition: background-color 0.15s, transform 0.15s;
+  }
+  .btn:hover {
+    background-color: var(--color-background-secondary);
+    transform: translateY(-1px);
+  }
+  .btn-primary {
+    background-color: var(--color-accent-300);
+    color: var(--color-brand-fg);
+    border-color: var(--color-accent-300);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-accent-300);
+    filter: brightness(1.05);
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1.1rem;
+  }
+  .section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border);
+  }
+  .link-underline {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-border);
+  }
+  .link-underline:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* ── 個資遮罩 ─────────────────────────────── */
+.pii {
+  background-color: currentColor;
+  color: transparent !important;
+  border-radius: 3px;
+  padding-inline: 0.15em;
+  user-select: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.pii.is-revealed {
+  background-color: transparent;
+  color: inherit !important;
+  user-select: auto;
+  cursor: auto;
+}
+.pii-note {
+  font-size: 0.7rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ── 列印 ─────────────────────────────── */
+@media print {
+  html,
+  html.dark {
+    color-scheme: light;
+    --background: #ffffff;
+    --background-secondary: #ffffff;
+    --background-tertiary: #ffffff;
+    --secondary-foreground: #000000;
+    --muted-foreground: 240 3.8% 30%;
+    --border: 240 5.9% 70%;
+    background: #fff !important;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .print-hide,
+  .no-print {
+    display: none !important;
+  }
+  .pii {
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.72em;
+    color: #555;
+  }
+  .avoid-break,
+  h1,
+  h2,
+  h3 {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
