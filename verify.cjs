@@ -5,7 +5,7 @@ const BASE = process.env.BASE || "http://localhost:4322";
 const OUT = path.join(__dirname, "shots");
 
 const targets = [
-  { slug: "v2-zh-home", url: "/zh/", full: true },
+  { slug: "v2-zh-home", url: "/", full: true },
   { slug: "v2-en-home", url: "/en/", full: true },
   { slug: "v2-zh-works", url: "/zh/works/", full: false },
   { slug: "v2-zh-work", url: "/zh/works/sic-wafer-yolo/", full: true },
@@ -58,7 +58,7 @@ const targets = [
   // mobile
   const mc = await browser.newContext({ viewport: { width: 375, height: 780 }, locale: "zh-TW" });
   const mp = await mc.newPage();
-  await mp.goto(BASE + "/zh/", { waitUntil: "networkidle" });
+  await mp.goto(BASE + "/", { waitUntil: "networkidle" });
   await mp.waitForTimeout(300);
   await mp.screenshot({ path: path.join(OUT, "v2-zh-home-mobile.png"), fullPage: true, scale: "css" });
   report.push({
@@ -72,7 +72,7 @@ const targets = [
   // sidebar sticky check + anchor nav + PII behaviour
   const sc = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const sp = await sc.newPage();
-  await sp.goto(BASE + "/zh/", { waitUntil: "networkidle" });
+  await sp.goto(BASE + "/", { waitUntil: "networkidle" });
   const sticky = await sp.evaluate(() => {
     const el = document.querySelector("aside");
     return el ? getComputedStyle(el).position : "no aside";
