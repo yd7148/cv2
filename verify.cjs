@@ -7,13 +7,13 @@ const OUT = path.join(__dirname, "shots");
 const targets = [
   { slug: "v2-zh-home", url: "/", full: true },
   { slug: "v2-en-home", url: "/en/", full: true },
-  { slug: "v2-zh-works", url: "/zh/works/", full: false },
-  { slug: "v2-zh-work", url: "/zh/works/sic-wafer-yolo/", full: true },
-  { slug: "v2-zh-resume", url: "/zh/resume/", full: true },
-  { slug: "v2-zh-about", url: "/zh/about/", full: false },
-  { slug: "v2-zh-notes", url: "/zh/notes/", full: false },
-  { slug: "v2-zh-note", url: "/zh/notes/edge-vs-cloud/", full: false },
-  { slug: "v2-zh-contact", url: "/zh/contact/", full: false },
+  { slug: "v2-zh-works", url: "/works/", full: false },
+  { slug: "v2-zh-work", url: "/works/sic-wafer-yolo/", full: true },
+  { slug: "v2-zh-resume", url: "/resume/", full: true },
+  { slug: "v2-zh-about", url: "/about/", full: false },
+  { slug: "v2-zh-notes", url: "/notes/", full: false },
+  { slug: "v2-zh-note", url: "/notes/edge-vs-cloud/", full: false },
+  { slug: "v2-zh-contact", url: "/contact/", full: false },
 ];
 
 (async () => {
@@ -102,7 +102,7 @@ const targets = [
   // PII reveal behaviour lives on the A4 resume page
   const rc = await browser.newContext({ viewport: { width: 1000, height: 1300 } });
   const rp = await rc.newPage();
-  await rp.goto(BASE + "/zh/resume/", { waitUntil: "networkidle" });
+  await rp.goto(BASE + "/resume/", { waitUntil: "networkidle" });
   const piiScreen = await rp.evaluate(() => {
     const el = document.querySelector("[data-pii]");
     return el ? getComputedStyle(el).color : "none";

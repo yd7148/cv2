@@ -1,4 +1,5 @@
 ---
+import { lp } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 import { identity } from "../data/resume";
 import { contact } from "../data/contact";
@@ -189,7 +190,7 @@ const rows: {
       </div>
 
       <div class="flex w-full flex-col gap-2">
-        <a href={`/${locale}/resume/`} class="btn-accent w-full">
+        <a href={`${lp(locale, "/resume/")}`} class="btn-accent w-full">
           <svg
             width="18"
             height="18"
@@ -205,7 +206,7 @@ const rows: {
           </svg>
           <p class="text-lg font-bold">{locale === "zh" ? "下載 A4 履歷" : "Download CV"}</p>
         </a>
-        <a href={`/${locale}/contact/`} class="btn-ghost w-full">
+        <a href={`${lp(locale, "/contact/")}`} class="btn-ghost w-full">
           <svg
             width="16"
             height="16"

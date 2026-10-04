@@ -20,10 +20,12 @@ const {
   navAnchors = [],
 } = Astro.props;
 const path = Astro.url.pathname;
-// Astro.url.pathname 在正式環境會含 base 前綴（/cv1/），而 altPath 只認 /zh/、/en/。
+// Astro.url.pathname 在正式環境會含 base 前綴（/cv2/），而 altPath 只認 /en/。
 // 根路徑的 pathname 是 /cv1/，不先剝掉 base 會算出 /en/cv1/ 這種錯誤連結。
 const pathNoBase = stripBase(path, import.meta.env.BASE_URL);
-const alt = altPath(pathNoBase, locale === "zh" ? "en" : "zh");
+// zh 在根路徑、en 帶 /en/ 前綴，兩個語系要各自指向自己的版本
+const altZh = altPath(pathNoBase, "zh");
+const altEn = altPath(pathNoBase, "en");
 const abs = (p: string) => new URL(p, SITE_URL).href;
 ---
 
@@ -36,8 +38,8 @@ const abs = (p: string) => new URL(p, SITE_URL).href;
     <meta name="description" content={description} />
     <link rel="canonical" href={abs(path)} />
     {noindex && <meta name="robots" content="noindex, nofollow, noarchive" />}
-    <link rel="alternate" hreflang="zh-Hant-TW" href={abs(alt)} />
-    <link rel="alternate" hreflang="en" href={abs(alt)} />
+    <link rel="alternate" hreflang="zh-Hant-TW" href={abs(altZh)} />
+    <link rel="alternate" hreflang="en" href={abs(altEn)} />
     <link rel="alternate" hreflang="x-default" href={abs("/")} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />

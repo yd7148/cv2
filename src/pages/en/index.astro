@@ -1,4 +1,5 @@
 ---
+import { lp } from "../../lib/i18n";
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Sidebar from "../../components/Sidebar.astro";
@@ -21,8 +22,8 @@ const anchors = [
   { href: "#certifications", label: "Certifications" },
   { href: "#skills", label: "Skills" },
   { href: "#notes", label: "Notes" },
-  { href: `/${locale}/works/`, label: "All projects" },
-  { href: `/${locale}/contact/`, label: "Contact" },
+  { href: `${lp(locale, "/works/")}`, label: "All projects" },
+  { href: `${lp(locale, "/contact/")}`, label: "Contact" },
 ];
 ---
 
@@ -112,7 +113,7 @@ const anchors = [
             {
               works.map((w) => (
                 <a
-                  href={`/${locale}/works/${w.id.replace(/-(zh|en)$/, "")}/`}
+                  href={`${lp(locale, `/works/${w.id.replace(/-(zh|en)$/, "")}/`)}`}
                   class="group flex flex-col gap-y-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-background-secondary)] p-5 transition-all hover:border-[var(--color-accent-300)] hover:shadow-sm"
                 >
                   <div class="flex items-start justify-between gap-2">
@@ -176,7 +177,7 @@ const anchors = [
             <Section id="notes" title="Technical notes">
               {notes.slice(0, 3).map((n) => (
                 <a
-                  href={`/${locale}/notes/${n.id.replace(/-(zh|en)$/, "")}/`}
+                  href={`${lp(locale, `/notes/${n.id.replace(/-(zh|en)$/, "")}/`)}`}
                   class="card-inset flex w-full flex-col gap-y-1 transition-all hover:shadow-sm"
                 >
                   <div class="flex flex-wrap items-baseline justify-between gap-2">
