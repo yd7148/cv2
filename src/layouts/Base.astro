@@ -70,7 +70,7 @@ const abs = (p: string) => new URL(p, SITE_URL).href;
   >
     <TopNav locale={locale} anchors={navAnchors} />
 
-    <main class="flex w-screen flex-col items-center px-5 pt-5 leading-relaxed md:px-0 lg:max-w-7xl">
+    <main class="flex w-full flex-col items-center px-5 pt-5 leading-relaxed md:px-0 lg:max-w-7xl">
       <slot />
       <Footer locale={locale} />
     </main>
